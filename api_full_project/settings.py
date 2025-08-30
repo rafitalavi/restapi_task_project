@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "*"]
 
-
+# REST_USE_JWT = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,11 +39,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'users',
+    # third-party apps
+   
+    'rest_framework_simplejwt',
+    'oauth2_provider',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',  # only if you want social logins
+    'social_django',  # for social authentication
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'allauth.account.middleware.AccountMiddleware',   # ✅ Add this line
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -63,6 +74,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # <- Here
+                'social_django.context_processors.login_redirect',  # <- Here
             ],
         },
     },
@@ -99,8 +112,43 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+# REST Framework Configuration
+# https://www.django-rest-framework.org/api-guide/settings/
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],# Default permission classes for the API
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        
+        #auth7 token authentication
+        'rest_framework.authentication.TokenAuthentication',
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        
+    ],# Add other REST framework settings as needed  Authentication settings for the API 
+}
 
+# Tell dj-rest-auth to use JWT
+REST_USE_JWT = True
 
+# Simple JWT configuration
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+}
+# Allauth Configuration
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # Default backend -- used to login by username    
+    'allauth.account.auth_backends.AuthenticationBackend',  # `allauth` specific authentication methods, such as login by e-mail
+)
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
