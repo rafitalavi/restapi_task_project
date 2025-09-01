@@ -17,7 +17,8 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path , include
-from users import router as user_api_router   
+from users import router as user_api_router  
+from team import router as team_api_router 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -34,8 +35,10 @@ auth_api_url_patterns = [
 if settings.DEBUG:
     auth_api_url_patterns.append(path('verify/', include('rest_framework.urls')) ) # DRF login/logout views for the browsable API)
 api_url_patterns = [
+    # Including the team app router URLs under 'teams/' path
     path('auth/', include(auth_api_url_patterns)),  # Including the auth API URL patterns
     path('accounts/', include(user_api_router.router.urls)),  # Including the users app router URLs under 'accounts/' path
+    path('teams/', include(team_api_router.router.urls)), 
 ]
 urlpatterns = [
     path('admin/', admin.site.urls),
