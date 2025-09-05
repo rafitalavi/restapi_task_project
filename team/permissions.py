@@ -20,4 +20,4 @@ class IsTeamManagerOrReadOnly(permissions.BasePermission):
             return True
 
         # Write permissions are only allowed to the team manager.
-        return obj.user.profile == request.manager
+        return obj.manager and obj.manager.user == request.user

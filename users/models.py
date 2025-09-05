@@ -18,6 +18,7 @@ class UploadToPathAndRename:
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=UploadToPathAndRename('media/accounts/'), blank=True, null=True)
+    team = models.ForeignKey('team.Team', on_delete=models.SET_NULL, related_name='members', null=True, blank=True)
    
    
 
