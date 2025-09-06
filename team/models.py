@@ -1,21 +1,22 @@
 from django.db import models
 import os
 import uuid
+from django.utils.deconstruct import deconstructible
 
 
 
-
+@deconstructible
 class GenerateTeamImagePath:
     def __call__(self, instance, filename):
         ext = filename.split('.')[-1]
         path = f'team_images/{instance.name}/image'
         name = f'{instance.name}_image.{ext}'
         return os.path.join(path, name)
-
+ImageFilePath = GenerateTeamImagePath()
 class Team(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=120)
-    image = models.ImageField(upload_to=GenerateTeamImagePath, blank=True, null=True)  # ❌ remove ()
+    image = models.ImageField(upload_to=ImageFilePath, blank=True, null=True)  # ❌ remove ()
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
