@@ -34,6 +34,7 @@ class TeamViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    # @action(detail=True, methods=['post'], url_path='leave', permission_classes=[]) 
     @action(detail=True, methods=['post'], url_path='leave', permission_classes=[]) 
     def leave(self, request, pk=None):
         try:

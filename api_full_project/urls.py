@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.urls import path , include
 from users import router as user_api_router  
 from team import router as team_api_router 
+from task import router as task_api_router
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -40,6 +41,7 @@ api_url_patterns = [
     path('auth/', include(auth_api_url_patterns)),  # Including the auth API URL patterns
     path('accounts/', include(user_api_router.router.urls)),  # Including the users app router URLs under 'accounts/' path
     path('teams/', include(team_api_router.router.urls)), 
+    path('tasks/', include(task_api_router.router.urls)),  # Including the task app router URLs under 'tasks/' path
 ]
 urlpatterns = [
     path('admin/', admin.site.urls),

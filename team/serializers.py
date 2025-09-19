@@ -5,8 +5,12 @@ class TeamSerializer(serializers.ModelSerializer):
     members_count = serializers.IntegerField( read_only=True)
     members = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='profile-detail')
     manager = serializers.HyperlinkedRelatedField(many=False, read_only=True, view_name='profile-detail')
+    listed_projects = serializers.HyperlinkedRelatedField(
+        many=True, read_only=True, view_name='tasklist-detail', source='task_lists'
+    )
+
     class Meta:
         model = Team
         fields = ['id', 'name', 'description', 'image', 'created_at', 'updated_at', 'manager','members', 'members_count','points', 
-                  'complted_projects', 'not_completed_projects' ,'url']
+                  'complted_projects', 'not_completed_projects' ,'url' ,'listed_projects']
         read_only_fields = ['points', 'complted_projects', 'not_completed_projects']
