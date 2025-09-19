@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
+    # Local apps
     'users',
     'team',
-    'task',
+    'task.apps.TaskConfig',
     # third-party apps
    
     'rest_framework_simplejwt',

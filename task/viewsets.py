@@ -2,6 +2,7 @@ from rest_framework import viewsets, mixins ,response
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import status as drf_status
 from django.utils import timezone
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import TaskList, Task, Attachment
 from .models import NOT_COMPLETED, IN_PROGRESS, COMPLETED
 from rest_framework.decorators import action
@@ -44,6 +45,9 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     permission_classes = [IsAllowedToEditTaskElseNone]
     queryset = Task.objects.all()  # required for DRF router
+    filter_backends = [DjangoFilterBackend]
+
+    filterset_fields = ['status', ]
 
     def get_queryset(self):
         user_profile = self.request.user.profile
