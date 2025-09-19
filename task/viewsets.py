@@ -1,4 +1,4 @@
-from rest_framework import viewsets, mixins ,response
+from rest_framework import viewsets, mixins ,response ,filters
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import status as drf_status
 from django.utils import timezone
@@ -45,7 +45,8 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     permission_classes = [IsAllowedToEditTaskElseNone]
     queryset = Task.objects.all()  # required for DRF router
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.SearchFilter,DjangoFilterBackend]
+    search_fields = ['title', 'status']
 
     filterset_fields = ['status', ]
 

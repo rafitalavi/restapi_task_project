@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status ,filters
 from .models import Team
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -12,7 +12,8 @@ class TeamViewSet(viewsets.ModelViewSet):
     queryset = Team.objects.all()
     permission_classes = [IsTeamManagerOrReadOnly]
     serializer_class = TeamSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.SearchFilter,DjangoFilterBackend]
+    search_fields = ['name', 'description'] #=description for exact search
     filterset_fields = ['members', 'name']  # use proper lookups
 
     @action(detail=True, methods=['post'], url_path='join', permission_classes=[]) 
