@@ -21,6 +21,7 @@ class Team(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     manager = models.ForeignKey('users.Profile', on_delete=models.CASCADE, related_name='teams', null=True, blank=True)
+    
     points = models.IntegerField(default=0)
     complted_projects = models.IntegerField(default=0)
     not_completed_projects = models.IntegerField(default=0)

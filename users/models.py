@@ -16,10 +16,18 @@ class UploadToPathAndRename:
         filename = f'profile_image.{ext}'
         return os.path.join(path, filename)
 class Profile(models.Model):
+    ROLE_CHOICES = [
+        ('manager', 'Manager'),
+        ('member', 'Member'),
+    ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=UploadToPathAndRename('media/accounts/'), blank=True, null=True)
     team = models.ForeignKey('team.Team', on_delete=models.SET_NULL, related_name='members', null=True, blank=True)
-   
+    role = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICES,
+        default='member'
+    )
    
 
     def __str__(self):
