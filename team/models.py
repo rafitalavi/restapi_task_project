@@ -25,6 +25,7 @@ class Team(models.Model):
     points = models.IntegerField(default=0)
     complted_projects = models.IntegerField(default=0)
     not_completed_projects = models.IntegerField(default=0)
+    total_projects = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

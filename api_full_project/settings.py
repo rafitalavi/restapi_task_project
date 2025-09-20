@@ -39,10 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
+    'storages',
+    'background_task',
     # Local apps
     'users',
     'team',
     'task.apps.TaskConfig',
+    'background_jobs',
     # third-party apps
    
     'rest_framework_simplejwt',

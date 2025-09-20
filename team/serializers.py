@@ -36,6 +36,6 @@ class TeamSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'description', 'image', 'created_at', 'updated_at',
             'manager', 'members', 'members_count', 'points',
-            'complted_projects', 'not_completed_projects', 'url', 'listed_projects'
+            'complted_projects', 'not_completed_projects', 'url', 'listed_projects', 'total_projects'
         ]
-        read_only_fields = ['points', 'complted_projects', 'not_completed_projects']
+        read_only_fields = ['points', 'complted_projects', 'not_completed_projects', 'total_projects']

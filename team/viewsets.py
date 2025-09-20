@@ -12,7 +12,8 @@ class TeamViewSet(viewsets.ModelViewSet):
     queryset = Team.objects.all()
     permission_classes = [IsTeamManagerOrReadOnly]
     serializer_class = TeamSerializer
-    filter_backends = [filters.SearchFilter,DjangoFilterBackend]
+    filter_backends = [filters.SearchFilter,DjangoFilterBackend , filters.OrderingFilter]
+    ordering_fields = ['created_at', 'updated_at', 'name']
     search_fields = ['name', 'description'] #=description for exact search
     filterset_fields = ['members', 'name']  # use proper lookups
 
